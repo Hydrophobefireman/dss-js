@@ -123,4 +123,5 @@ as DSS does not support keyframe properties (yet), they should go here.
 # Apps Using DSS:
 
 [Crypt](https://crypt.pycode.tk) - A client side file enryption client using web workers
+
 repo: https://github.com/Hydrophobefireman/cryptex
