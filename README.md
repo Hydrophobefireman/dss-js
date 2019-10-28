@@ -40,7 +40,7 @@ DSS expects a simple javascript object.
 
 ### kvStyles
 
-These are the simplest, Key-Value pairs of classname and css (camel-case preffered).
+These are the simplest, Key-Value pairs of classname and css (camel-case preferred).
 (all property names are minified)
 example:
 
