@@ -6,7 +6,7 @@ DSS creates actual `.css` files and adds almost 0 javascript to your bundle.
 
 ## Usage
 
-DSS runs during the build stages, isntead of using a plugin, all you have to do is call 2 functions and get your files ready.
+DSS runs during the build stages, instead of using a plugin, all you have to do is call 2 functions and get your files ready.
 
 `webpack.config.js`
 
@@ -40,7 +40,7 @@ DSS expects a simple javascript object.
 
 ### kvStyles
 
-These are the simplest, Key-Value pairs of classname and css (camel-case preffered).
+These are the simplest, Key-Value pairs of classname and css (camel-case preferred).
 (all property names are minified)
 example:
 
