@@ -1,16 +1,29 @@
-const { randomBytes } = require("crypto");
+const { randomBytes, createHash } = require("crypto");
 const { writeFileSync } = require("fs");
 
-const _getRandom = currLen => {
-  let ret = randomBytes(currLen)
-    .toString("base64")
-    .replace(/[\/\+]/g, "_")
-    .replace(/\=/g, "");
+const numCheck = ret => {
   if (/^[0-9]/.test(ret)) {
     return `_${ret}`;
   }
   return ret;
 };
+const _getRandom = currLen => {
+  let ret = numCheck(
+    randomBytes(currLen)
+      .toString("base64")
+      .replace(/[\/\+]/g, "_")
+      .replace(/\=/g, "")
+  );
+  return ret;
+};
+let currLen = 1;
+const getHash = str =>
+  numCheck(
+    createHash("md5")
+      .update(str)
+      .digest("base64")
+      .substr(0, currLen)
+  );
 
 const addCSS = {
   kv(kvStyles, css) {
@@ -26,11 +39,7 @@ const addCSS = {
       const { prefix = "", selector, global } = key;
       let newKey = selector;
       if (!global) {
-        newKey = cssNameToHashedPropMap.get(selector);
-        if (!newKey) {
-          newKey = getProp(selector);
-          cssNameToHashedPropMap.set(selector, newKey);
-        }
+        newKey = getHashedKey(selector);
       }
       const cssText = `${prefix}${newKey}{\n${_getCSSAttrs(props)}\n}`;
       css.push(cssText);
@@ -44,11 +53,12 @@ const addCSS = {
 const cssNameToHashedPropMap = new Map();
 
 const usedProps = new Set();
-let currLen = 1;
-const getProp = () => {
-  let ret;
-  while (usedProps.has((ret = _getRandom(currLen)))) {
+
+const getProp = sel => {
+  let ret = getHash(sel);
+  while (usedProps.has(ret)) {
     currLen++;
+    ret = _getRandom(currLen);
   }
   return ret;
 };
@@ -56,7 +66,7 @@ const getProp = () => {
 function getHashedKey(sel) {
   let newKey = cssNameToHashedPropMap.get(sel);
   if (!newKey) {
-    newKey = getProp();
+    newKey = getProp(sel);
     cssNameToHashedPropMap.set(sel, newKey);
     usedProps.add(newKey);
   }
