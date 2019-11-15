@@ -16,7 +16,7 @@ const _getRandom = currLen => {
   );
   return ret;
 };
-let currLen = 1;
+let currLen = 3;
 const getHash = str =>
   numCheck(
     createHash("md5")
@@ -116,5 +116,4 @@ function getGlueCode(filePath = false) {
   if (!filePath) return js;
   return writeFileSync(filePath, js);
 }
-module.exports.evaluate = evaluate;
-module.exports.getGlueCode = getGlueCode;
+module.exports = { evaluate, getGlueCode };
