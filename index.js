@@ -1,4 +1,4 @@
-const { randomBytes, createHash } = require("crypto");
+const { createHash } = require("crypto");
 const { writeFileSync } = require("fs");
 
 const numCheck = ret => {
@@ -7,15 +7,7 @@ const numCheck = ret => {
   }
   return ret;
 };
-const _getRandom = currLen => {
-  let ret = numCheck(
-    randomBytes(currLen)
-      .toString("base64")
-      .replace(/[\/\+]/g, "_")
-      .replace(/\=/g, "")
-  );
-  return ret;
-};
+
 let currLen = 3;
 const getHash = str =>
   numCheck(
@@ -23,6 +15,8 @@ const getHash = str =>
       .update(str)
       .digest("base64")
       .substr(0, currLen)
+      .replace(/[\/\+]/g, "_")
+      .replace(/\=/g, "")
   );
 
 const addCSS = {
@@ -58,7 +52,7 @@ const getProp = sel => {
   let ret = getHash(sel);
   while (usedProps.has(ret)) {
     currLen++;
-    ret = _getRandom(currLen);
+    ret = getHash(currLen);
   }
   return ret;
 };
